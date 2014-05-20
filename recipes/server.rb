@@ -17,7 +17,16 @@ bash "untar kibana" do
   code <<-EOH
   tar -zxf kibana-3.0-packetbeat.tar.gz
   cd kibana-3.0-packetbeat
-  mkdir /etc/httpd/htdocs
-  cp -R * /etc/httpd/htdocs/
+  cp -R * /var/www/html
   EOH
+end
+
+link "/etc/httpd/sites-available/default" do
+  to "/etc/httpd/sites-enabled/default"
+  notifies :restart, "service[httpd]", :delayed
+end
+
+service "httpd" do
+  supports :restart => true, :reload => true
+  action [:enable, :start]
 end
