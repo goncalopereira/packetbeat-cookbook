@@ -21,8 +21,8 @@ bash "untar kibana" do
   EOH
 end
 
-link "/etc/httpd/sites-available/default" do
-  to "/etc/httpd/sites-enabled/default"
+link "/etc/httpd/sites-enabled/default" do
+  to "/etc/httpd/sites-available/default"
   notifies :restart, "service[httpd]", :delayed
 end
 
